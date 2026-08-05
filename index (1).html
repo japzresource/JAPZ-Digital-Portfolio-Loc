@@ -1,0 +1,2015 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAPZ — Digital Portfolio</title>
+    <link rel="icon" type="image/png" href="images/japzlogo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #05070b;
+            --bg-panel: #0d121b;
+            --bg-panel-2: #141b28;
+            --ink: #f4f6fa;
+            --ink-dim: rgba(244, 246, 250, 0.64);
+            --ink-faint: rgba(244, 246, 250, 0.38);
+            --onyellow: #05070b;
+            --blue: #3f6dff;
+            --blue-glow: #254bff;
+            --yellow: #ffcc00;
+            --line: rgba(244, 246, 250, 0.12);
+            --line-strong: rgba(244, 246, 250, 0.24);
+            --radius: 2px;
+        }
+
+        .nav-logo {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            height: 45px;
+            width: auto;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(ellipse 560px 900px at 0% 30%, rgba(63, 109, 255, 0.30), transparent 62%),
+                radial-gradient(ellipse 560px 900px at 100% 70%, rgba(63, 109, 255, 0.26), transparent 62%),
+                radial-gradient(ellipse 700px 500px at 50% 100%, rgba(255, 204, 0, 0.06), transparent 60%);
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--yellow);
+            color: var(--onyellow);
+        }
+
+        h1,
+        h2,
+        h3,
+        .display {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        .mono {
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 0.04em;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .wrap {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        section {
+            position: relative;
+        }
+
+        @media (max-width:640px) {
+            .wrap {
+                padding: 0 20px;
+            }
+        }
+
+        .enter-flash {
+            position: fixed;
+            inset: 0;
+            z-index: 150;
+            background: var(--yellow);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .enter-flash.play {
+            animation: flashOut .3s ease-out forwards;
+        }
+
+        @keyframes flashOut {
+            from {
+                opacity: 0.92;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        .grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        #crosshair {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 34px;
+            height: 34px;
+            pointer-events: none;
+            z-index: 60;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity .25s ease;
+        }
+
+        #crosshair svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #crosshair.active {
+            opacity: 1;
+        }
+
+        header.nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 32px;
+            background: linear-gradient(to bottom, rgba(5, 7, 11, 0.92), rgba(5, 7, 11, 0));
+            backdrop-filter: blur(2px);
+        }
+
+        .brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .brand .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--yellow);
+            animation: blink 2.4s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .25;
+            }
+        }
+
+        nav.links {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav.links a {
+            font-size: 13px;
+            color: var(--ink-dim);
+            font-weight: 500;
+            position: relative;
+        }
+
+        nav.links a:hover {
+            color: var(--ink);
+        }
+
+        nav.links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 1px;
+            background: var(--yellow);
+            transition: width .25s ease;
+        }
+
+        nav.links a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width:640px) {
+            nav.links {
+                display: none;
+            }
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 120px;
+            padding-bottom: 80px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background-color: var(--bg);
+            background-image: url('images/japz web.png');
+            background-size: cover;
+            background-position: right center;
+            background-repeat: no-repeat;
+        }
+
+        @keyframes heroZoomIn {
+            from {
+                transform: scale(1.18);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .hero-gallery {
+            position: absolute;
+            inset: 0;
+            height: 100%;
+            border: none;
+        }
+
+        .hero-gallery .slide {
+            background-size: cover;
+        }
+
+        .hero-gallery .placeholder-txt {
+            font-size: 13px;
+            padding: 22px;
+            margin: 0;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background:
+                linear-gradient(180deg, rgba(5, 7, 11, 0.25) 0%, rgba(5, 7, 11, 0.5) 55%, rgba(5, 7, 11, 0.75) 100%),
+                radial-gradient(ellipse 560px 900px at 0% 30%, rgba(63, 109, 255, 0.20), transparent 62%),
+                radial-gradient(ellipse 560px 900px at 100% 70%, rgba(63, 109, 255, 0.15), transparent 62%);
+        }
+
+        .hero-logo {
+            position: absolute;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            height: 48px;
+            width: auto;
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero .eyebrow {
+            font-size: 12px;
+            color: var(--yellow);
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 26px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: riseIn .7s .1s ease forwards;
+        }
+
+        .hero .eyebrow .rule {
+            width: 34px;
+            height: 1px;
+            background: var(--yellow);
+        }
+
+        .iris-wrap {
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 6.6vw, 88px);
+            line-height: 1.02;
+            font-weight: 700;
+            margin: 0 0 28px;
+            clip-path: circle(0% at 8% 40%);
+            animation: iris 1.15s .35s cubic-bezier(.2, .7, .2, 1) forwards;
+        }
+
+        .hero h1 span {
+            display: block;
+        }
+
+        .hero h1 .accent {
+            color: var(--blue);
+        }
+
+        .hero h1 .accent2 {
+            color: var(--yellow);
+            -webkit-text-stroke: 1px var(--onyellow);
+        }
+
+        @keyframes iris {
+            to {
+                clip-path: circle(150% at 8% 40%);
+            }
+        }
+
+        @keyframes riseIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero p.sub {
+            max-width: 560px;
+            font-size: 17px;
+            line-height: 1.65;
+            color: var(--ink-dim);
+            opacity: 0;
+            transform: translateY(10px);
+            animation: riseIn .7s .9s ease forwards;
+        }
+
+        .hero .cta-row {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-top: 42px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: riseIn .7s 1.05s ease forwards;
+        }
+
+        .btn-primary {
+            background: var(--yellow);
+            color: var(--onyellow);
+            font-weight: 700;
+            font-size: 14px;
+            padding: 14px 26px;
+            border-radius: var(--radius);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 26px rgba(63, 109, 255, 0.35);
+            background: var(--blue);
+            color: #fff;
+        }
+
+        .scroll-hint {
+            font-size: 12px;
+            color: var(--ink-faint);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .scroll-hint .bar {
+            width: 1px;
+            height: 26px;
+            background: var(--ink-faint);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-hint .bar::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--yellow);
+            animation: scrollbar 1.8s infinite ease-in-out;
+        }
+
+        @keyframes scrollbar {
+            0% {
+                top: -100%;
+            }
+
+            50% {
+                top: 0%;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        .ticker-belt {
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            background: var(--bg-panel);
+            overflow: hidden;
+            padding: 16px 0;
+        }
+
+        .ticker-track {
+            display: flex;
+            width: max-content;
+            animation: scrollTicker 28s linear infinite;
+        }
+
+        .ticker-track span {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: var(--ink-dim);
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            white-space: nowrap;
+        }
+
+        .ticker-track span::after {
+            content: '◆';
+            color: var(--yellow);
+            font-size: 9px;
+        }
+
+        @keyframes scrollTicker {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .about {
+            padding: 110px 0 40px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        @media (max-width:800px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        .about .kicker {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--yellow);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .about h2 {
+            font-size: clamp(28px, 3.6vw, 42px);
+            margin: 0 0 20px;
+            font-weight: 700;
+        }
+
+        .about p {
+            color: var(--ink-dim);
+            font-size: 15.5px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .about .stamp {
+            border: 1px solid var(--line);
+            padding: 22px 24px;
+            background: var(--bg-panel);
+        }
+
+        .about .stamp .role {
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .about .stamp .org {
+            color: var(--blue);
+            font-weight: 600;
+            font-size: 13.5px;
+            margin-bottom: 14px;
+        }
+
+        .about .stamp ul {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--ink-dim);
+            font-size: 13.5px;
+            line-height: 1.8;
+        }
+
+        .section-head {
+            padding: 100px 0 56px;
+        }
+
+        .section-head .kicker {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--yellow);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .section-head h2 {
+            font-size: clamp(28px, 4vw, 44px);
+            margin: 0;
+            font-weight: 700;
+            max-width: 720px;
+        }
+
+        .section-head p {
+            color: var(--ink-dim);
+            max-width: 560px;
+            margin-top: 18px;
+            font-size: 15.5px;
+            line-height: 1.6;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .7s cubic-bezier(.2, .7, .2, 1), transform .7s cubic-bezier(.2, .7, .2, 1);
+        }
+
+        .reveal.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .roll {
+            margin-bottom: 96px;
+        }
+
+        .roll-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 20px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 18px;
+            margin-bottom: 34px;
+        }
+
+        .roll-head h3 {
+            font-size: clamp(21px, 2.4vw, 28px);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .roll-head .count {
+            font-size: 12px;
+            color: var(--ink-faint);
+            flex-shrink: 0;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        @media (max-width:800px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            position: relative;
+            background: var(--bg-panel);
+            border: 1px solid var(--line);
+            padding: 22px;
+            overflow: hidden;
+            transition: border-color .3s ease, background .3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--line-strong);
+            background: var(--bg-panel-2);
+        }
+
+        /* ---------- slideshow gallery ---------- */
+        .gallery {
+            position: relative;
+            height: 420px;
+            margin-bottom: 20px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--bg-panel-2);
+        }
+
+        .slides {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity .6s ease;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .slide video,
+        .slide iframe {
+            max-width: 100%;
+            max-height: 100%;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .yt-facade {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .yt-play {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(5, 7, 11, 0.65);
+            border: 1px solid var(--line-strong);
+            color: var(--ink);
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s ease, transform .2s ease;
+        }
+
+        .yt-facade:hover .yt-play {
+            background: var(--yellow);
+            color: var(--onyellow);
+            transform: scale(1.08);
+        }
+
+        .slide .placeholder-txt {
+            font-size: 10px;
+            text-align: center;
+            color: var(--ink-faint);
+            padding: 10px;
+            line-height: 1.5;
+            border: 1px dashed var(--line-strong);
+            margin: 18px;
+        }
+
+
+        .slide-cap {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            font-size: 10px;
+            padding: 6px 10px;
+            background: rgba(5, 7, 11, 0.82);
+            color: var(--ink);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            border-top: 1px solid var(--line);
+            z-index: 3;
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(5, 7, 11, 0.55);
+            color: var(--ink);
+            border: 1px solid var(--line-strong);
+            font-size: 16px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity .25s ease, background .2s ease, color .2s ease;
+            z-index: 4;
+        }
+
+        .gallery:hover .arrow {
+            opacity: 1;
+        }
+
+        .arrow:hover {
+            background: var(--yellow);
+            color: var(--onyellow);
+        }
+
+        .prev-arrow {
+            left: 10px;
+        }
+
+        .next-arrow {
+            right: 10px;
+        }
+
+        .dots {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            z-index: 4;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(244, 246, 250, 0.35);
+            cursor: pointer;
+            transition: background .2s ease, transform .2s ease;
+        }
+
+        .dot.active {
+            background: var(--yellow);
+            transform: scale(1.3);
+        }
+
+        .vf-corner {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            opacity: 0;
+            transition: opacity .35s ease, transform .35s ease;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .card:hover .vf-corner {
+            opacity: 1;
+        }
+
+        .vf-tl {
+            top: 8px;
+            left: 8px;
+            border-top: 2px solid var(--yellow);
+            border-left: 2px solid var(--yellow);
+            transform: translate(4px, 4px);
+        }
+
+        .vf-tr {
+            top: 8px;
+            right: 8px;
+            border-top: 2px solid var(--yellow);
+            border-right: 2px solid var(--yellow);
+            transform: translate(-4px, 4px);
+        }
+
+        .vf-bl {
+            bottom: 8px;
+            left: 8px;
+            border-bottom: 2px solid var(--yellow);
+            border-left: 2px solid var(--yellow);
+            transform: translate(4px, -4px);
+        }
+
+        .vf-br {
+            bottom: 8px;
+            right: 8px;
+            border-bottom: 2px solid var(--yellow);
+            border-right: 2px solid var(--yellow);
+            transform: translate(-4px, -4px);
+        }
+
+        .card:hover .vf-tl,
+        .card:hover .vf-tr,
+        .card:hover .vf-bl,
+        .card:hover .vf-br {
+            transform: translate(0, 0);
+        }
+
+        .tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            background: var(--yellow);
+            color: var(--onyellow);
+            padding: 5px 9px;
+            border: 1px solid var(--onyellow);
+            text-transform: uppercase;
+            z-index: 5;
+        }
+
+        .card .client {
+            font-size: 11.5px;
+            color: var(--blue);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .card h4 {
+            font-size: 19px;
+            margin: 0 0 18px;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
+        .spec {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .spec-row {
+            display: grid;
+            grid-template-columns: 76px 1fr;
+            gap: 14px;
+            align-items: start;
+        }
+
+        .spec-row .k {
+            font-size: 10.5px;
+            color: var(--ink-faint);
+            letter-spacing: 0.1em;
+            padding-top: 2px;
+        }
+
+        .spec-row .v {
+            font-size: 13.5px;
+            color: var(--ink-dim);
+            line-height: 1.55;
+        }
+
+        .spec-row .v.outcome {
+            color: var(--ink);
+        }
+
+        .spec-row+.spec-row {
+            border-top: 1px dashed var(--line);
+            padding-top: 12px;
+        }
+
+        /* ---------- other projects: true-size masonry grid ---------- */
+        .other-grid {
+            column-count: 3;
+            column-gap: 16px;
+        }
+
+        @media (max-width:900px) {
+            .other-grid {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width:520px) {
+            .other-grid {
+                column-count: 1;
+            }
+        }
+
+        .other-slot {
+            display: block;
+            break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+            margin-bottom: 14px;
+            background: var(--bg-panel);
+            border: 1px dashed var(--line-strong);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .other-slot img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .other-slot .placeholder-txt {
+            font-size: 9px;
+            text-align: center;
+            color: var(--ink-faint);
+            padding: 24px 6px;
+            line-height: 1.5;
+        }
+
+        .other-slot .vf-corner {
+            width: 12px;
+            height: 12px;
+        }
+
+        footer {
+            padding: 110px 0 60px;
+            border-top: 1px solid var(--line);
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        footer h2 {
+            font-size: clamp(32px, 5.6vw, 58px);
+            margin: 0 0 22px;
+        }
+
+        footer h2 .accent {
+            color: var(--blue);
+        }
+
+        footer p {
+            color: var(--ink-dim);
+            max-width: 460px;
+            margin: 0 auto 34px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        footer .contact-block {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        footer .contact-block a {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        footer .contact-block a:hover {
+            color: var(--blue);
+        }
+
+        footer .foot-links {
+            display: flex;
+            justify-content: center;
+            gap: 26px;
+            margin-top: 44px;
+            flex-wrap: wrap;
+        }
+
+        footer .foot-links a {
+            font-size: 13px;
+            color: var(--ink-dim);
+            border-bottom: 1px solid transparent;
+            padding-bottom: 4px;
+            transition: color .2s, border-color .2s;
+        }
+
+        footer .foot-links a:hover {
+            color: var(--ink);
+            border-color: var(--yellow);
+        }
+
+        footer .copy {
+            margin-top: 70px;
+            font-size: 11.5px;
+            color: var(--ink-faint);
+        }
+
+        .roll-head+.affil-grid {
+            margin-top: 0;
+        }
+
+        .affil-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+        }
+
+        @media (max-width:900px) {
+            .affil-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width:560px) {
+            .affil-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .affil-card {
+            position: relative;
+            background: var(--bg-panel);
+            border: 1px solid var(--line);
+            padding: 14px;
+            overflow: hidden;
+            transition: border-color .3s ease, background .3s ease;
+        }
+
+        .affil-card:hover {
+            border-color: var(--line-strong);
+            background: var(--bg-panel-2);
+        }
+
+        .affil-logo {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: var(--bg-panel-2);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            overflow: hidden;
+        }
+
+        .affil-logo[data-url] {
+            cursor: zoom-in;
+        }
+
+        .affil-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14.5px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .affil-desc {
+            font-size: 12.5px;
+            line-height: 1.6;
+            color: var(--ink-dim);
+        }
+
+        /* ---------- preloader ---------- */
+        body.is-loading {
+            overflow: hidden;
+        }
+
+        body.is-loading>*:not(#preloader):not(.enter-flash) {
+            opacity: 0;
+        }
+
+        body:not(.is-loading)>*:not(#preloader):not(.enter-flash) {
+            opacity: 1;
+            transition: opacity .6s ease;
+        }
+
+        #preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity .5s ease, visibility .5s ease;
+        }
+
+        #preloader.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        #preloader .pre-mark {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--ink-dim);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        #preloader .pre-mark .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--yellow);
+            animation: blink 1.2s infinite;
+        }
+
+        #preloader .bar-track {
+            width: 220px;
+            height: 2px;
+            background: var(--line);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #preloader .bar-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0%;
+            background: var(--yellow);
+            transition: width .25s ease;
+        }
+
+        #preloader .pre-pct {
+            margin-top: 14px;
+            font-size: 12px;
+            color: var(--ink-faint);
+            letter-spacing: 0.05em;
+        }
+
+        /* ---------- lightbox ---------- */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: rgba(5, 7, 11, 0.92);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        #lightbox.active {
+            display: flex;
+        }
+
+        #lightbox .lb-inner {
+            position: relative;
+            max-width: 92vw;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #lightbox img,
+        #lightbox video {
+            max-width: 92vw;
+            max-height: 80vh;
+            display: block;
+            border: 1px solid var(--line-strong);
+        }
+
+        #lightbox iframe {
+            width: min(92vw, 900px);
+            height: min(80vh, 506px);
+            border: 1px solid var(--line-strong);
+            display: block;
+        }
+
+        #lightbox .lb-cap {
+            margin-top: 14px;
+            font-size: 13px;
+            color: var(--ink-dim);
+            text-align: center;
+        }
+
+        #lightbox .lb-close {
+            position: absolute;
+            top: -44px;
+            right: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1px solid var(--line-strong);
+            background: rgba(5, 7, 11, 0.6);
+            color: var(--ink);
+            font-size: 16px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        #lightbox .lb-close:hover {
+            background: var(--yellow);
+            color: var(--onyellow);
+        }
+
+        .zoom-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(5, 7, 11, 0.55);
+            color: var(--ink);
+            border: 1px solid var(--line-strong);
+            font-size: 13px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity .25s ease, background .2s ease, color .2s ease;
+            z-index: 6;
+        }
+
+        .gallery:hover .zoom-btn {
+            opacity: 1;
+        }
+
+        .zoom-btn:hover {
+            background: var(--yellow);
+            color: var(--onyellow);
+        }
+
+        .other-slot img {
+            cursor: zoom-in;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .hero h1 {
+                clip-path: none;
+            }
+
+            .hero-bg {
+                opacity: 1;
+                transform: none;
+            }
+
+            .enter-flash {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="is-loading">
+
+    <div id="preloader">
+        <div class="pre-mark"><span class="dot"></span> JAPZ</div>
+        <div class="bar-track">
+            <div class="bar-fill" id="pre-bar-fill"></div>
+        </div>
+        <div class="pre-pct mono" id="pre-pct">0%</div>
+    </div>
+
+    <div class="enter-flash"></div>
+    <div class="grain"></div>
+    <div id="crosshair">
+        <svg viewBox="0 0 34 34">
+            <g stroke="#ffcc00" stroke-width="1.4" fill="none">
+                <line x1="17" y1="0" x2="17" y2="10" />
+                <line x1="17" y1="24" x2="17" y2="34" />
+                <line x1="0" y1="17" x2="10" y2="17" />
+                <line x1="24" y1="17" x2="34" y2="17" />
+                <circle cx="17" cy="17" r="6" />
+            </g>
+        </svg>
+    </div>
+
+    <div id="lightbox">
+        <div class="lb-inner" id="lb-inner"></div>
+    </div>
+
+    <header class="nav">
+        <div class="brand"><span class="dot"></span> JAPZ</div>
+        <img src="images/jpz logo.png" alt="Logo" class="nav-logo">
+        <nav class="links">
+            <a href="#about">About</a>
+            <a href="#work">Work</a>
+            <a href="#other">More Work</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-bg">
+            <div id="hero-gallery"></div>
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="wrap hero-copy">
+            <div class="eyebrow"><span class="rule"></span> CREATIVE PRODUCER — CONCEPT · TECHNICAL · DESIGN</div>
+            <div class="iris-wrap">
+                <h1>
+                    <span>I turn an idea</span>
+                    <span>into an <span class="accent">event,</span></span>
+                    <span>and an event into a <span class="accent2">memory.</span></span>
+                </h1>
+            </div>
+            <p class="sub">I'm JAPZ — a Graphic Designer & Video Editor who's covered live plays, work immersion
+                programs, fan meets, and church anniversaries. From concept to technical setup to the final design
+                material, I build the pieces that make an event feel intentional.</p>
+            <div class="cta-row">
+                <a href="#work" class="btn-primary">View the work ↓</a>
+                <div class="scroll-hint">
+                    <div class="bar"></div>Scroll
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="ticker-belt">
+        <div class="ticker-track" id="ticker"></div>
+    </div>
+
+    <section class="about" id="about">
+        <div class="wrap">
+            <div class="about-grid reveal">
+                <div>
+                    <span class="kicker">About</span>
+                    <h2>Built for the room, not just the reel.</h2>
+                    <p>I got my start behind a camera, covering events for schools and communities. Currently I am
+                        leading
+                        <strong>CRÉLINC Productions</strong>, an underground company built by aspiring event production
+                        talent across Audio, Visual, Lights, and Event Production — the kind of crew that shows up early
+                        and leaves last.
+                    </p>
+                    <p>Every project on this page moved through the same process: understand the brief, capture the real
+                        moment as it happens, then design something that outlives the event itself.</p>
+                </div>
+                <div class="stamp">
+                    <div class="role">JAPZ</div>
+                    <div class="org">Graphic Designer · Video Editor</div>
+                    <ul>
+                        <li>Photography, &amp; videography for live events and highlight reels</li>
+                        <li>Graphic design — posters, merchandise, event branding, social campaigns</li>
+                        <li>Concept and technical support across event production</li>
+                        <li>Affiliated with CRÉLINC Productions — Audio, Visual, Lights &amp; Event Production</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="wrap" id="work">
+
+        <div class="section-head reveal">
+            <span class="kicker">Selected Work</span>
+            <h2>Every project, shot the way it happened, designed the way it deserved.</h2>
+            <p>Grouped by client. Each one includes a gallery of shots from different segments of the event, the brief,
+                my role, and how it landed.</p>
+        </div>
+
+        <div id="rolls"></div>
+
+    </main>
+    <section id="affiliations">
+        <div class="wrap">
+            <div class="roll reveal">
+                <div class="roll-head">
+                    <h3>Brands &amp; Affiliations</h3>
+                    <span class="count mono">05 PARTNERS</span>
+                </div>
+                <div class="affil-grid" id="affil-grid"></div>
+            </div>
+        </div>
+    </section>
+    <section id="other">
+        <div class="wrap">
+            <div class="section-head reveal" style="padding-bottom:36px;">
+                <span class="kicker">Other Projects</span>
+                <h2>More frames from the field.</h2>
+                <p>Additional coverage and design work. Drop in as many as you'd like — the grid keeps six per row and
+                    wraps automatically.</p>
+            </div>
+            <div class="other-grid reveal" id="other-grid"></div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="wrap">
+            <h2>Got an event worth <span class="accent">building?</span></h2>
+            <p>Whether it's a stage play, a fan meet, or an anniversary years in the making — I show up with a plan, a
+                camera, and a design file.</p>
+            <div class="contact-block">
+                <a href="mailto:contactjapzonbusiness@gmail.com">contactjapzonbusiness@gmail.com</a>
+                <a href="tel:0572850617">057 285 0617</a>
+            </div>
+            <div class="foot-links">
+                <a href="https://linktr.ee/japzresource">Linktree</a>
+                <a href="mailto:contactjapzonbusiness@gmail.com">Email</a>
+            </div>
+            <div class="copy mono"> JAPZ JAMES | CRÉLINC PRODUCTIONS</div>
+        </div>
+    </footer>
+
+    <script>
+        /* ============================================================
+           EDIT ZONE — everything you need to change lives below.
+           Replace any "images" placeholder url with a real image path
+           and it will appear automatically. Each project can
+           have 1 or more images — 2+ images automatically becomes a
+           slideshow with dots and arrows.
+           ============================================================ */
+
+        const tickerWords = ["PHOTOGRAPHY", "VIDEO EDITING", "GRAPHIC DESIGN", "EVENT PRODUCTION", "TECHNICAL DIRECTION", "BRANDING", "MERCH DESIGN", "SOCIAL CAMPAIGNS"];
+
+        const rolls = [
+            {
+                client: "Future Generation Philippine International School",
+                works: [{
+                    event: "FUGEN Greek Dionysia — Live Play",
+                    tag: "Poster Series",
+                    images: [
+                        { url: "images/fugen 1.png", cap: "Adonis" },
+                        { url: "images/fugen 2.png", cap: "Odysseus" },
+                        { url: "images/fugen 3.png", cap: "Zeus, God of the Sky and Thunder" },
+                        { url: "images/fugen 5.png", cap: "Atlas" }
+                    ],
+                    task: "Designed a 4-poster series for the high school's live theatrical performance.",
+                    role: "Shot and edited raw production footage into imagery that captured the drama, tension, and spectacle of the Dionysia.",
+                    outcome: "A poster series that set the tone before the curtain even rose — building buzz across the student body ahead of a sold-out show night."
+                }]
+            },
+            {
+                client: "Palm Crest International School",
+                works: [{
+                    event: "PCIS Work Immersion",
+                    tag: "Highlight Film",
+                    images: [
+                        { type: "youtube", url: "https://www.youtube.com/embed/5tRV3JgvSco", poster: "images/bhu.png", cap: "Highlight film" }
+                    ],
+                    task: "Produced the closing highlight video recapping Grade 12's Work Immersion Program.",
+                    role: "Followed students on-site to capture unscripted, real moments — the nerves, the small wins, the genuine excitement of a first job.",
+                    outcome: "A highlight reel that gave parents and faculty an honest look at the immersion experience, screened at the closing ceremony."
+                }]
+            },
+            {
+                client: "Second Philippine International School",
+                works: [{
+                    event: "Day in the Life Montage",
+                    tag: "Highlight Film",
+                    images: [
+                        { type: "youtube", url: "https://www.youtube.com/embed/UwOwuD42S5A", cap: "Highlight film" }
+                ],
+                    task: "Produced a montage video showcasing a Grade 11 student's daily life.",
+                    role: "Followed the student on-site to capture unscripted, real moments throughout the student's weekly schedule.",
+                    outcome: "A video montage that gave the class an honest look at Kayden's weekly experience, screened during class."
+                }]
+            },
+            {
+                client: "STAYC Philippines",
+                works: [{
+                    event: "Quinte Royale",
+                    tag: "Merch Design",
+                    images: [
+                        { url: "images/STAYC 1.png", cap: "Concept board & mood references" },
+                        { url: "images/STAYC 3.jpg", cap: "Concept board & mood references" },
+                        { url: "images/STAYC 2.png", cap: "Final cupsleeve set — photocards, circle cards & coaster" }
+                    ],
+                    task: "Designed a set of photocards and cup holders for the fan-meet-style event.",
+                    role: "Built a dark purple-and-pink \"royalty\" aesthetic to match the event's regal concept, start to finish.",
+                    outcome: "Collectible merch fans lined up for — the visual identity became part of how the community remembers the event."
+                }]
+            },
+            {
+                client: "Psalm 23 Great Shepherd",
+                works: [
+                    {
+                        event: "30th Anniversary — Called to Go, Chosen to Grow",
+                        tag: "Shirt Design",
+                        images: [
+                            { url: "images/CONCEPT.png", cap: "Concept guide" },
+                            { url: "images/SAMPLE 1.png", cap: "Final shirt design" }
+                        ],
+                        task: "Designed the anniversary t-shirt.",
+                        role: "Anchored the design around the word \"Chosen,\" letting it carry the emotional weight of the theme.",
+                        outcome: "A shirt the congregation wore into the anniversary season — a wearable reminder of the theme long after the event ended."
+                    },
+                    {
+                        event: "31st Anniversary — Disciple-Maker, Be One – Make One",
+                        tag: "Event Design",
+                        images: [
+                            { url: "images/disciple maker 1.jpg", cap: "Stage backdrop" },
+                            { type: "youtube", url: "https://www.youtube.com/embed/2Pje_Aa80Ck", poster: "images/di.png", cap: "Highlight film" }
+                        ],
+                        task: "Created the full visual design system for the anniversary.",
+                        role: "Visualized the weight of discipleship — every disciple-maker carrying God's light through darkness.",
+                        outcome: "A visual identity that reframed responsibility as something worth carrying — used across every anniversary touchpoint."
+                    }
+                ]
+            },
+            {
+                client: "PS23 GSCIM — Patience Sector",
+                works: [
+                    {
+                        event: "20th Anniversary — Built With Patience",
+                        tag: "Full Branding",
+                        images: [
+                            { url: "images/PATIENCE SECTOR - LOGO (1).png", cap: "Brand system" },
+                            { url: "images/PATIENCE SECTOR - EVENT DESIGN (3).png", cap: "Stage design" },
+                            { url: "images/PATIENCE SECTOR - EVENT DESIGN (2).png", cap: "Print collateral" },
+                            { url: "images/PATIENCE SECTOR - FINAL EVENT DESIGN (4).png", cap: "Event day" }
+                        ],
+                        task: "Built the complete branding for the anniversary event.",
+                        role: "Traced the sector's origin story into a visual legacy — a mark of unity for every sector gathering under Patience.",
+                        outcome: "A cohesive brand system, from stage to print, that turned twenty years of history into one shared symbol."
+                    },
+                    {
+                        event: "20th Anniversary — Built With Patience",
+                        tag: "Shirt Design",
+                        images: [
+                            { url: "images/PATIENCE SECTOR - 20th Shirt Design.png", cap: "Design concept" },
+                        ],
+                        task: "Designed the anniversary t-shirt.",
+                        role: "Chose a verse to match the event's theme, anchored on three words: Faithful, Focused, Forward.",
+                        outcome: "A shirt built around three words the community could hold onto well past the anniversary weekend."
+                    },
+                    {
+                        event: "The UPWRD'26 Vision",
+                        tag: "Venue Revamp",
+                        images: [
+                            { url: "images/u1.png", cap: "Concept design" },
+                            { url: "images/u2.png", cap: "Wallpaper design" },
+                            { url: "images/u3.png", cap: "Wallpaper design" },
+                        ],
+                        task: "Led the venue revamp from concept to completion.",
+                        role: "Built a hall that is event-friendly and ready for use — a modern, trend-forward design with minimal decoration and an adjustable setup.",
+                        outcome: "A design that made use of every space and met the client's concept."
+                    },
+                    {
+                        event: "Red Sands & Orange Farm Fellowship",
+                        tag: "Social Campaign",
+                        images: [
+                            { url: "images/redsand 1.jpg", cap: "Pubmat" },
+                            { url: "images/redsand 2.jpg", cap: "Morning breakfast" },
+                            { url: "images/redsand 3.jpg", cap: "Minutes before departure" },
+                            { url: "images/redsand 4.jpg", cap: "Red Sands arrival" }
+                        ],
+                        task: "Created the promotional Facebook post for the fellowship's movie night.",
+                        role: "Built promotional branding around the community's Red Sands experience — spotlighting the new Toyota Coaster — then captured the movie night itself, from setup to crowd reaction.",
+                        outcome: "A post that turned a single night's fellowship into shareable proof of the community's momentum."
+                    },
+                    {
+                        event: "Cinema Experience: Fireproof The Movie",
+                        tag: "Social Campaign",
+                        images: [
+                            { url: "images/cinema 1.jpg", cap: "Pubmat" },
+                            { url: "images/cinema 2.jpg", cap: "Cinema tech" },
+                            { url: "images/cinema 3.jpg", cap: "Audience view" },
+                            { url: "images/cinema 4.jpg", cap: "Audience view" }
+                        ],
+                        task: "Created the promotional Facebook post for the fellowship's movie night.",
+                        role: "Built promotional branding around the community's Red Sands experience — spotlighting the new Toyota Coaster — then captured the movie night itself, from setup to crowd reaction.",
+                        outcome: "A post that turned a single night's fellowship into shareable proof of the community's momentum."
+                    }
+                ]
+            },
+            {
+                client: "aria.beads",
+                works: [{
+                    event: "Aria's Beads — Brand Identity",
+                    tag: "Logo Design",
+                    images: [
+                        { url: "images/drf.png", cap: "Concept sketch" }
+                    ],
+                    task: "Designed a cute, trendy, minimal cat logo for aria's beads, a handmade jewelry brand.",
+                    role: "Drew and personally illustrated the cat mark by hand, then built out the color palette and typography to match the brand's soft, playful aesthetic.",
+                    outcome: "A logo mark now used across the brand's Instagram profile and highlight covers — giving aria's beads a consistent, recognizable face."
+                }]
+            }
+        ];
+
+        // 👉 Add as many entries as you like — six show per row, extra ones wrap.
+        const otherProjects = [
+            "images/others 5.png",
+            "images/others 1.png",
+            "images/FRIENDLY.png",
+            "images/others 3.png",
+            "images/1A.png",
+            "images/1B.png",
+            "images/1C.png",
+            "images/march.png",
+            "images/others 4.png",
+            "images/FIREHOUSE.png",
+            "images/ar.png",
+            "images/21.png",
+            "images/sok.png",
+            "images/GN.png",
+            "images/jik1.png",
+            "images/pol.png"
+
+        ];
+        // 👉 Brands & affiliations — swap "images/..." for your real image paths.
+        const affiliations = [
+            {
+                logo: "images/2.png",
+                name: "CRÉLINC Productions",
+                desc: "Underground event production crew — Audio, Visual, Lights & Event Production."
+            },
+            {
+                logo: "images/1D.png",
+                name: "Wrapped.cc",
+                desc: "A online shop promoting high quality japanese and miniature toys, and products."
+            },
+            {
+                logo: "images/others 7.png",
+                name: "Black Paradise",
+                desc: "A well-known shop specializing in oreo milkshakes, and cheesy fries in Al Danah International School."
+            },
+            {
+                logo: "images/3.png",
+                name: "NXBAND",
+                desc: "A Gospel Youth Band that spreads the gospel through complex musical arrangements."
+            },
+            {
+                logo: "images/4.png",
+                name: "Second Choice",
+                desc: "Palm Crest International School's Secular Band that promotes social awareness and community engagement."
+            }
+        ];
+        /* ============================================================
+           RENDER LOGIC — no need to touch anything below this line.
+           ============================================================ */
+
+        const PLACEHOLDER = "images";
+
+        function isPlaceholder(url) {
+            return !url || url.trim() === "images";
+        }
+
+        // builds a slideshow: 1 image = static, 2+ images = auto-advancing
+        // carousel. showNav=false hides the dots/arrows (used for the
+        // ambient hero background slideshow).
+        function galleryHTML(images, showNav = true) {
+            const multi = images.length > 1;
+
+            const slides = images.map((img, i) => {
+                const ph = isPlaceholder(img.url);
+                const isVideo = img.type === "video";
+                const isYoutube = img.type === "youtube";
+                const safeUrl = img.url ? img.url.replace(/'/g, "%27") : img.url;
+                const bgAttr = (ph || isVideo || isYoutube) ? '' : ` style="background-image:url('${safeUrl}')"`;
+                const altText = (img.cap || 'Project image').replace(/"/g, '&quot;');
+                const a11yAttrs = ph ? ' role="presentation"' : ` role="img" aria-label="${altText}"`;
+                const videoTag = (!ph && isVideo)
+                    ? `<video src="${safeUrl}" controls preload="metadata"${img.poster ? ` poster="${img.poster.replace(/'/g, "%27")}"` : ''}></video>`
+                    : '';
+                const youtubeTag = (!ph && isYoutube)
+                    ? (img.poster
+                        ? `<div class="yt-facade" data-embed="${safeUrl}" style="background-image:url('${img.poster.replace(/'/g, "%27")}')"><span class="yt-play">▶</span></div>`
+                        : `<iframe src="${safeUrl}" title="${altText}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`)
+                    : '';
+                const capAttr = (img.cap || '').replace(/"/g, '&quot;');
+                const mediaType = isYoutube ? 'youtube' : (isVideo ? 'video' : 'image');
+                const zoomBtn = (!ph && showNav)
+                    ? `<button class="zoom-btn" type="button" aria-label="View larger" data-url="${safeUrl}" data-type="${mediaType}" data-cap="${capAttr}">⤢</button>`
+                    : '';
+                return `<div class="slide ${i === 0 ? 'active' : ''}"${bgAttr}${a11yAttrs}>
+          ${ph ? `<div class="placeholder-txt">${PLACEHOLDER}</div>` : ''}
+          ${videoTag}
+          ${youtubeTag}
+          ${zoomBtn}
+          ${img.cap ? `<div class="slide-cap">${img.cap}</div>` : ''}
+        </div>`;
+            }).join('');
+
+            const dots = (multi && showNav)
+                ? `<div class="dots">${images.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}"></span>`).join('')}</div>`
+                : '';
+
+            const arrows = (multi && showNav)
+                ? `<button class="arrow prev-arrow" aria-label="Previous image" type="button">‹</button><button class="arrow next-arrow" aria-label="Next image" type="button">›</button>`
+                : '';
+
+            return `<div class="slides">${slides}</div>${arrows}${dots}`;
+        }
+
+        const tickerEl = document.getElementById('ticker');
+        tickerEl.innerHTML = Array(4).fill(tickerWords.map(w => `<span>${w}</span>`).join('')).join('');
+
+        // 👉 Ambient background slideshow for the hero. Pulls one frame each
+        // from STAYC, Psalm 23, Patience Sector, and aria.beads. Replace the
+        // urls the same way as everywhere else — just paste a real image link.
+        const heroHighlights = [
+            { url: "images/fugen-zeus.jpg", cap: "" },
+            { url: "images/stayc-quinteroyale.jpg", cap: "" },
+            { url: "images/calledtogo-final.jpg", cap: "" },
+            { url: "images/fugen-atlas.jpg", cap: "" }
+        ];
+        document.getElementById('hero-gallery').innerHTML = galleryHTML(heroHighlights, false);
+
+        const rollsEl = document.getElementById('rolls');
+        rollsEl.innerHTML = rolls.map((roll) => `
+  <div class="roll reveal">
+    <div class="roll-head">
+      <h3>${roll.client}</h3>
+      <span class="count mono">${String(roll.works.length).padStart(2, '0')} PROJECT${roll.works.length !== 1 ? 'S' : ''}</span>
+    </div>
+    <div class="cards">
+      ${roll.works.map(w => `
+        <div class="card reveal">
+          <div class="gallery">
+            ${galleryHTML(w.images)}
+            <span class="tag">${w.tag}</span>
+            <div class="vf-corner vf-tl"></div><div class="vf-corner vf-tr"></div>
+            <div class="vf-corner vf-bl"></div><div class="vf-corner vf-br"></div>
+          </div>
+          <div class="client">${roll.client}</div>
+          <h4>${w.event}</h4>
+          <div class="spec">
+            <div class="spec-row"><div class="k mono">TASK</div><div class="v">${w.task}</div></div>
+            <div class="spec-row"><div class="k mono">ROLE</div><div class="v">${w.role}</div></div>
+            <div class="spec-row"><div class="k mono">OUTCOME</div><div class="v outcome">${w.outcome}</div></div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+`).join('');
+
+        // wire up every slideshow: autoplay, dots, arrows, pause on hover
+        document.querySelectorAll('.gallery').forEach((gallery) => {
+            const slides = gallery.querySelectorAll('.slide');
+            const dots = gallery.querySelectorAll('.dot');
+            if (slides.length <= 1) return;
+
+            let idx = 0;
+            let timer = null;
+
+            function show(i) {
+                idx = (i + slides.length) % slides.length;
+                slides.forEach((s, j) => s.classList.toggle('active', j === idx));
+                dots.forEach((d, j) => d.classList.toggle('active', j === idx));
+            }
+            function next() { show(idx + 1); }
+            function prev() { show(idx - 1); }
+            function start() { stop(); timer = setInterval(next, 4000); }
+            function stop() { if (timer) clearInterval(timer); }
+
+            const nextBtn = gallery.querySelector('.next-arrow');
+            const prevBtn = gallery.querySelector('.prev-arrow');
+            if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); next(); start(); });
+            if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prev(); start(); });
+            dots.forEach((d, j) => d.addEventListener('click', (e) => { e.stopPropagation(); show(j); start(); }));
+
+            gallery.addEventListener('mouseenter', stop);
+            gallery.addEventListener('mouseleave', start);
+
+            show(0);
+            start();
+        });
+
+        // "Other Projects" grid: renders true <img> tags at natural
+        // aspect ratio inside a masonry-style column layout, so the
+        // grid adjusts itself to each image's real dimensions.
+        const otherGridEl = document.getElementById('other-grid');
+        otherGridEl.innerHTML = otherProjects.map(url => {
+            const ph = isPlaceholder(url);
+            const safeUrl = url ? url.replace(/'/g, "%27") : url;
+            return `<div class="other-slot ${ph ? 'placeholder' : ''}">
+    ${ph
+                    ? `<div class="placeholder-txt">${PLACEHOLDER}</div>`
+                    : `<img src="${safeUrl}" alt="Project photo" loading="lazy">`}
+    <div class="vf-corner vf-tl"></div><div class="vf-corner vf-br"></div>
+  </div>`;
+        }).join('');
+
+        const affilGridEl = document.getElementById('affil-grid');
+        affilGridEl.innerHTML = affiliations.map(a => {
+            const ph = isPlaceholder(a.logo);
+            const safeUrl = a.logo ? a.logo.replace(/'/g, "%27") : a.logo;
+            return `<div class="affil-card">
+    <div class="affil-logo" ${!ph ? `style="background-image:url('${safeUrl}')" data-url="${safeUrl}"` : ''}>
+      ${ph ? `<div class="placeholder-txt">${PLACEHOLDER}</div>` : ''}
+    </div>
+    <div class="affil-name">${a.name}</div>
+    <div class="affil-desc">${a.desc}</div>
+  </div>`;
+        }).join('');
+
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        const crosshair = document.getElementById('crosshair');
+        const isTouch = window.matchMedia('(pointer: coarse)').matches;
+        if (!isTouch) {
+            document.querySelectorAll('.card, .other-slot').forEach(card => {
+                card.addEventListener('mouseenter', () => crosshair.classList.add('active'));
+                card.addEventListener('mouseleave', () => crosshair.classList.remove('active'));
+            });
+            window.addEventListener('mousemove', (e) => {
+                crosshair.style.left = e.clientX + 'px';
+                crosshair.style.top = e.clientY + 'px';
+            });
+        }
+
+        // ---------- lightbox: big preview on click for gallery images/videos + other-projects grid ----------
+        const lightbox = document.getElementById('lightbox');
+        const lbInner = document.getElementById('lb-inner');
+
+        function openLightbox(url, type, cap) {
+            const mediaHTML = (type === 'video')
+                ? `<video src="${url}" controls autoplay></video>`
+                : (type === 'youtube')
+                    ? `<iframe src="${url}${url.includes('?') ? '&' : '?'}autoplay=1" title="${(cap || 'Preview').replace(/"/g, '&quot;')}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+                    : `<img src="${url}" alt="${(cap || 'Preview').replace(/"/g, '&quot;')}">`;
+            lbInner.innerHTML = `<button class="lb-close" type="button" aria-label="Close preview">✕</button>${mediaHTML}${cap ? `<div class="lb-cap">${cap}</div>` : ''}`;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            lbInner.innerHTML = '';
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('click', (e) => {
+            const facade = e.target.closest('.yt-facade');
+            if (facade) {
+                const embedUrl = facade.dataset.embed;
+                const iframe = document.createElement('iframe');
+                iframe.src = embedUrl + (embedUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+                iframe.title = 'YouTube video';
+                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                iframe.setAttribute('allowfullscreen', '');
+                facade.replaceWith(iframe);
+                return;
+            }
+            const zoomBtn = e.target.closest('.zoom-btn');
+            if (zoomBtn) {
+                e.stopPropagation();
+                openLightbox(zoomBtn.dataset.url, zoomBtn.dataset.type, zoomBtn.dataset.cap || '');
+                return;
+            }
+            const otherImg = e.target.closest('.other-slot img');
+            if (otherImg) {
+                openLightbox(otherImg.getAttribute('src'), 'image', '');
+                return;
+            }
+            const affilLogo = e.target.closest('.affil-logo[data-url]');
+            if (affilLogo) {
+                const name = affilLogo.parentElement.querySelector('.affil-name');
+                openLightbox(affilLogo.dataset.url, 'image', name ? name.textContent : '');
+                return;
+            }
+            if (e.target.closest('.lb-close') || e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        /* ---------- preloader: wait for every real image before showing the site ---------- */
+        function collectAllImageUrls() {
+            const urls = new Set();
+            heroHighlights.forEach(img => { if (!isPlaceholder(img.url)) urls.add(img.url); });
+            rolls.forEach(roll => roll.works.forEach(w => {
+                w.images.forEach(img => {
+                    if (img.type !== 'video' && !isPlaceholder(img.url)) urls.add(img.url);
+                });
+            }));
+            otherProjects.forEach(url => { if (!isPlaceholder(url)) urls.add(url); });
+            affiliations.forEach(a => { if (!isPlaceholder(a.logo)) urls.add(a.logo); });
+            return Array.from(urls);
+        }
+
+        (function preloadAndReveal() {
+            const urls = collectAllImageUrls();
+            const total = urls.length;
+            const barFill = document.getElementById('pre-bar-fill');
+            const pct = document.getElementById('pre-pct');
+            const preloader = document.getElementById('preloader');
+            const MIN_DISPLAY_MS = 2000;
+            const startTime = Date.now();
+
+            let revealed = false;
+            function reveal() {
+                if (revealed) return;
+                revealed = true;
+                document.body.classList.remove('is-loading');
+                const flash = document.querySelector('.enter-flash');
+                if (flash) flash.classList.add('play');
+                preloader.classList.add('hide');
+                setTimeout(() => preloader.remove(), 600);
+            }
+
+            let imagesReady = (total === 0);
+            let minTimeReached = false;
+
+            function tryReveal() {
+                if (imagesReady && minTimeReached) reveal();
+            }
+
+            setTimeout(() => { minTimeReached = true; tryReveal(); }, MIN_DISPLAY_MS);
+
+            if (total === 0) {
+                barFill.style.width = '100%';
+                pct.textContent = '100%';
+                tryReveal();
+                return;
+            }
+
+            let loaded = 0;
+            function tick() {
+                loaded++;
+                const p = Math.round((loaded / total) * 100);
+                barFill.style.width = p + '%';
+                pct.textContent = p + '%';
+                if (loaded >= total) {
+                    imagesReady = true;
+                    tryReveal();
+                }
+            }
+
+            urls.forEach(url => {
+                const img = new Image();
+                img.onload = tick;
+                img.onerror = tick; // don't let one broken/missing image hang the page
+                img.src = url;
+            });
+
+            // safety net in case a request stalls without ever firing load/error
+            setTimeout(reveal, 15000);
+        })();
+    </script>
+
+</body>
+
+</html>
